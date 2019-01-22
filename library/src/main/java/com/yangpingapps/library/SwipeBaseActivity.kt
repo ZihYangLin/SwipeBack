@@ -15,17 +15,32 @@ import android.view.WindowManager
 import android.widget.FrameLayout
 
 open class SwipeBaseActivity : Activity(), SwipeListener {
+    companion object {
+        enum class Direction {
+            RIGHT, LEFT, UP, DOWN
+        }
+
+        val DEFAULT_SWIPE_DIRECTION = Direction.RIGHT
+    }
 
     private lateinit var viewShadow: View
 
+    private var mSwipeDirection: Direction = DEFAULT_SWIPE_DIRECTION
+
+
     override fun setContentView(layoutResID: Int) {
         super.setContentView(getContentLayout(layoutResID))
-        overridePendingTransition(R.anim.slide_in_left, 0)
+        when (mSwipeDirection) {
+            Direction.RIGHT -> overridePendingTransition(R.anim.slide_in_left, 0)
+            Direction.LEFT -> overridePendingTransition(R.anim.slide_in_right, 0)
+            Direction.UP -> overridePendingTransition(R.anim.slide_in_top, 0)
+            Direction.DOWN -> overridePendingTransition(R.anim.slide_in_bottom, 0)
+        }
     }
 
     private fun getContentLayout(layoutResID: Int): View {
         val view = LayoutInflater.from(this).inflate(layoutResID, null)
-        view.setOnTouchListener(SwipeListener(this))
+        view.setOnTouchListener(SwipeListener(this, mSwipeDirection))
         val root = FrameLayout(this)
         viewShadow = View(this)
         viewShadow.setBackgroundColor(getShadowColor())
@@ -52,7 +67,14 @@ open class SwipeBaseActivity : Activity(), SwipeListener {
         overridePendingTransition(0, android.R.anim.fade_out)
     }
 
-    class SwipeListener(val activity: SwipeBaseActivity) : View.OnTouchListener {
+    class SwipeListener(private val activity: SwipeBaseActivity, private val direction: Direction) :
+        View.OnTouchListener {
+        data class ActionTarget(
+            var downX: Float = 0f, var positionX: Float = 0f
+            , var downY: Float = 0f, var positionY: Float = 0f
+            , var targetTime: Long = 0L, var isFinished: Boolean = false
+        )
+
         companion object {
             data class Screen(val widthPixels: Int, val heightPixels: Int)
 
@@ -66,64 +88,194 @@ open class SwipeBaseActivity : Activity(), SwipeListener {
         }
 
         private val screenWidth: Float = getScreenSize(activity).widthPixels.toFloat()
-        private val SWIPE_MIN_DISTANCE = screenWidth * 2 / 5
-        private var isFinished = false
-        private var downRawX = 0f
-        private var positionX = 0f
-        private var timeTouch = 0L
+        private val screenHeight: Float = getScreenSize(activity).heightPixels.toFloat()
+        private val SWIPE_MIN_DISTANCE = when (direction) {
+            Direction.RIGHT, Direction.LEFT -> screenWidth * 2 / 5
+            Direction.UP, Direction.DOWN -> screenHeight * 2 / 5
+        }
+        private val mTarget = ActionTarget()
 
         override fun onTouch(v: View?, event: MotionEvent?): Boolean {
             if (event != null) {
                 when (event.action) {
                     MotionEvent.ACTION_DOWN -> {
-                        timeTouch = System.currentTimeMillis()
-                        downRawX = event.rawX
+                        mTarget.targetTime = System.currentTimeMillis()
+                        mTarget.downX = event.rawX
+                        mTarget.downY = event.rawY
                         return true
                     }
                     MotionEvent.ACTION_MOVE -> {
-                        isFinished = event.rawX - downRawX > SWIPE_MIN_DISTANCE
-                        positionX = if (event.rawX - downRawX > 0) event.rawX - downRawX else 0f
-                        activity.onSwiped(Math.min(positionX / screenWidth, 1f))
-                        v?.translationX = positionX
+                        mTarget.isFinished = when (direction) {
+                            Direction.RIGHT -> event.rawX - mTarget.downX > SWIPE_MIN_DISTANCE
+                            Direction.LEFT -> mTarget.downX - event.rawX > SWIPE_MIN_DISTANCE
+                            Direction.DOWN -> event.rawY - mTarget.downY > SWIPE_MIN_DISTANCE
+                            Direction.UP -> mTarget.downY - event.rawY > SWIPE_MIN_DISTANCE
+                        }
+                        mTarget.positionX = when (direction) {
+                            Direction.RIGHT -> if (event.rawX - mTarget.downX > 0) event.rawX - mTarget.downX else 0f
+                            Direction.LEFT -> if (mTarget.downX - event.rawX > 0) mTarget.downX - event.rawX else 0f
+                            else -> 0f
+                        }
+                        mTarget.positionY = when (direction) {
+                            Direction.DOWN -> if (event.rawY - mTarget.downY > 0) event.rawY - mTarget.downY else 0f
+                            Direction.UP -> if (mTarget.downY - event.rawY > 0) mTarget.downY - event.rawY else 0f
+                            else -> 0f
+                        }
+                        Log.i(
+                            "##OCEAN##",
+                            "Finished:${mTarget.isFinished}, x:${mTarget.positionX}, y:${mTarget.positionY}"
+                        )
+                        when (direction) {
+                            Direction.RIGHT -> {
+                                activity.onSwiped(Math.min(mTarget.positionX / screenWidth, 1f))
+                                v?.translationX = mTarget.positionX
+                            }
+                            Direction.LEFT -> {
+                                activity.onSwiped(Math.min(mTarget.positionX / screenWidth, 1f))
+                                v?.translationX = -mTarget.positionX
+                            }
+                            Direction.DOWN -> {
+                                activity.onSwiped(Math.min(mTarget.positionY / screenHeight, 1f))
+                                v?.translationY = mTarget.positionY
+                            }
+                            Direction.UP -> {
+                                activity.onSwiped(Math.min(mTarget.positionY / screenHeight, 1f))
+                                v?.translationY = -mTarget.positionY
+                            }
+                        }
                         return true
                     }
                     MotionEvent.ACTION_UP -> {
-                        if (System.currentTimeMillis() - timeTouch < 300) {
-                            if (positionX > 200) {
-                                val anim = ValueAnimator.ofFloat(positionX, screenWidth)
-                                anim.duration = 200
-                                anim.addUpdateListener { animation ->
-                                    activity.onSwiped((Math.min(animation.animatedValue as Float / screenWidth, 1f)))
-                                    v?.translationX = (animation.animatedValue as Float)
-                                }
-                                anim.addListener(object : AnimatorListenerAdapter() {
-                                    override fun onAnimationEnd(animation: Animator?) {
-                                        activity.finish()
+                        if (System.currentTimeMillis() - mTarget.targetTime < 300) {
+                            when (direction) {
+                                Direction.LEFT, Direction.RIGHT -> {
+                                    if (mTarget.positionX > 200) {
+                                        val anim = if (direction == Direction.RIGHT) {
+                                            ValueAnimator.ofFloat(mTarget.positionX, screenWidth)
+                                        } else {
+                                            ValueAnimator.ofFloat(-mTarget.positionX, -screenWidth)
+                                        }
+                                        anim.duration = 200
+                                        anim.addUpdateListener { animation ->
+                                            activity.onSwiped(
+                                                Math.abs(
+                                                    Math.min(
+                                                        animation.animatedValue as Float / screenWidth,
+                                                        1f
+                                                    )
+                                                )
+                                            )
+                                            v?.translationX = (animation.animatedValue as Float)
+                                        }
+                                        anim.addListener(object : AnimatorListenerAdapter() {
+                                            override fun onAnimationEnd(animation: Animator?) {
+                                                activity.finish()
+                                            }
+                                        })
+                                        anim.start()
+                                        return true
                                     }
-                                })
-                                anim.start()
-                                return true
+                                }
+                                Direction.DOWN, Direction.UP -> {
+                                    if (mTarget.positionY > 200) {
+                                        val anim = if (direction == Direction.DOWN) {
+                                            ValueAnimator.ofFloat(mTarget.positionY, screenHeight)
+                                        } else {
+                                            ValueAnimator.ofFloat(-mTarget.positionY, -screenHeight)
+                                        }
+                                        anim.duration = 200
+                                        anim.addUpdateListener { animation ->
+                                            activity.onSwiped(
+                                                Math.abs(
+                                                    Math.min(
+                                                        animation.animatedValue as Float / screenHeight,
+                                                        1f
+                                                    )
+                                                )
+                                            )
+                                            v?.translationY = (animation.animatedValue as Float)
+                                        }
+                                        anim.addListener(object : AnimatorListenerAdapter() {
+                                            override fun onAnimationEnd(animation: Animator?) {
+                                                activity.finish()
+                                            }
+                                        })
+                                        anim.start()
+                                        return true
+                                    }
+                                }
                             }
                         }
 
-                        if (isFinished) {
-                            val anim = ValueAnimator.ofFloat(positionX, screenWidth)
-                            anim.duration = 200
-                            anim.addUpdateListener { animation ->
-                                activity.onSwiped((Math.min(animation.animatedValue as Float / screenWidth, 1f)))
-                                v?.translationX = (animation.animatedValue as Float)
-                            }
-                            anim.addListener(object : AnimatorListenerAdapter() {
-                                override fun onAnimationEnd(animation: Animator?) {
-                                    activity.finish()
+                        if (mTarget.isFinished) {
+                            when (direction) {
+                                Direction.RIGHT, Direction.LEFT -> {
+                                    val anim = if (direction == Direction.RIGHT) {
+                                        ValueAnimator.ofFloat(mTarget.positionX, screenWidth)
+                                    } else {
+                                        ValueAnimator.ofFloat(-mTarget.positionX, -screenWidth)
+                                    }
+                                    anim.duration = 200
+                                    anim.addUpdateListener { animation ->
+                                        activity.onSwiped(
+                                            Math.abs(
+                                                Math.min(
+                                                    animation.animatedValue as Float / screenWidth,
+                                                    1f
+                                                )
+                                            )
+                                        )
+                                        v?.translationX = (animation.animatedValue as Float)
+                                    }
+                                    anim.addListener(object : AnimatorListenerAdapter() {
+                                        override fun onAnimationEnd(animation: Animator?) {
+                                            activity.finish()
+                                        }
+                                    })
+                                    anim.start()
                                 }
-                            })
-                            anim.start()
+                                Direction.UP, Direction.DOWN -> {
+                                    val anim = if (direction == Direction.DOWN) {
+                                        ValueAnimator.ofFloat(mTarget.positionY, screenHeight)
+                                    } else {
+                                        ValueAnimator.ofFloat(-mTarget.positionY, -screenHeight)
+                                    }
+                                    anim.duration = 200
+                                    anim.addUpdateListener { animation ->
+                                        activity.onSwiped(
+                                            Math.abs(
+                                                Math.min(
+                                                    animation.animatedValue as Float / screenHeight,
+                                                    1f
+                                                )
+                                            )
+                                        )
+                                        v?.translationY = (animation.animatedValue as Float)
+                                    }
+                                    anim.addListener(object : AnimatorListenerAdapter() {
+                                        override fun onAnimationEnd(animation: Animator?) {
+                                            activity.finish()
+                                        }
+                                    })
+                                    anim.start()
+                                }
+                            }
+
                         } else {
-                            val anim = ValueAnimator.ofFloat(positionX, 0f)
+                            val startValue = when (direction) {
+                                Direction.RIGHT -> mTarget.positionX
+                                Direction.LEFT -> -mTarget.positionX
+                                Direction.UP -> -mTarget.positionY
+                                Direction.DOWN -> mTarget.positionY
+                            }
+                            val anim = ValueAnimator.ofFloat(startValue, 0f)
                             anim.duration = 200
                             anim.addUpdateListener { animation ->
-                                v?.translationX = (animation.animatedValue as Float)
+                                if (direction == Direction.LEFT || direction == Direction.RIGHT) {
+                                    v?.translationX = (animation.animatedValue as Float)
+                                } else {
+                                    v?.translationY = (animation.animatedValue as Float)
+                                }
                             }
                             anim.start()
                         }
