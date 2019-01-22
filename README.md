@@ -6,6 +6,20 @@ Sample
 
 <img src="gifs/sample.gif" width="246">
 
+Download
+========
+```xml
+<dependency>
+  <groupId>com.yangping</groupId>
+  <artifactId>swipeback</artifactId>
+  <version>1.0.0</version>
+  <type>pom</type>
+</dependency>
+```
+or Gradle ( jcenter ):
+```groovy
+implementation 'com.yangping:swipeback:1.0.0'
+```
 
 
 ### License
