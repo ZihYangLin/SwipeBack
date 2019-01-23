@@ -1,4 +1,5 @@
-# SwipeBack
+# SwipeBack<a href='https://play.google.com/store/apps/details?id=com.yangpingapps.swipeback'><img alt='Get it on Google Play' src='https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png' height="50px"/></a>
+
 Use the swipe gesture with four directions(right, left, down, up) to finish the activity.
 
 
