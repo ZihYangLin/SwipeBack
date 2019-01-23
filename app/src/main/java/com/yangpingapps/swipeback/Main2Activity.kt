@@ -5,9 +5,9 @@ import android.os.Bundle
 import com.yangpingapps.library.SwipeBaseActivity
 
 class Main2Activity : SwipeBaseActivity() {
-    override fun getDirection(): Companion.Direction = mDirection
+    override fun getDirection(): Direction = mDirection
 
-    private lateinit var mDirection: Companion.Direction
+    private lateinit var mDirection: Direction
     private var mAnimation: Boolean = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -16,14 +16,14 @@ class Main2Activity : SwipeBaseActivity() {
         mDirection = if (bundle != null) {
             mAnimation = bundle.getBoolean("ANIMTION")
             when (bundle.getString("DIRECTION", "RIGHT")) {
-                "LEFT" -> Companion.Direction.LEFT
-                "REIGT" -> Companion.Direction.RIGHT
-                "DOWN" -> Companion.Direction.DOWN
-                "UP" -> Companion.Direction.UP
-                else -> Companion.Direction.RIGHT
+                "LEFT" -> Direction.LEFT
+                "REIGT" -> Direction.RIGHT
+                "DOWN" -> Direction.DOWN
+                "UP" -> Direction.UP
+                else -> Direction.RIGHT
             }
         } else {
-            Companion.Direction.RIGHT
+            Direction.RIGHT
         }
         setContentView(R.layout.activity_main2)
     }
@@ -34,5 +34,9 @@ class Main2Activity : SwipeBaseActivity() {
 
     override fun getLaunchAnimation(): Boolean {
         return mAnimation
+    }
+
+    override fun onSwiped(persent: Float, position: Float) {
+        super.onSwiped(persent, position)
     }
 }

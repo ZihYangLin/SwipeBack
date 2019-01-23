@@ -9,10 +9,8 @@ import android.widget.FrameLayout
 open abstract class SwipeBaseActivity : Activity(), OnSwipeListener {
     abstract fun getDirection(): Direction
 
-    companion object {
-        enum class Direction {
-            RIGHT, LEFT, UP, DOWN
-        }
+    enum class Direction {
+        RIGHT, LEFT, UP, DOWN
     }
 
     private lateinit var viewShadow: View
