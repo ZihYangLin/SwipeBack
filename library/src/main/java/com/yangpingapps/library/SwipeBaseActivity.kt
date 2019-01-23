@@ -1,7 +1,7 @@
 package com.yangpingapps.library
 
 import android.app.Activity
-import android.support.v4.content.ContextCompat
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.FrameLayout
@@ -48,7 +48,7 @@ open abstract class SwipeBaseActivity : Activity(), OnSwipeListener {
     }
 
     protected open fun getShadowColor(): Int {
-        return ContextCompat.getColor(this, R.color.shadow)
+        return Color.parseColor("7f000000")
     }
 
     override fun onPause() {
