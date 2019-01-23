@@ -1,10 +1,40 @@
 # SwipeBack
 Finish the activity by using a swipe-right gesture.
 
-Sample
+
+Demo
 ======
 
 <img src="gifs/sample.gif" width="246">
+
+
+Methods
+===
+
+| Name | Return | Definition |
+| :---:   | :-:  | :-:  |
+| getShadowColor() | Int | Setting the color of shadow. |
+| getLaunchAnimation() | Boolean | Setting the switch of launch-activity animation. |
+| abstract getDirection() | Direction | Setting the direction of the swiping gesture. |
+| onSwiped(float persent, float position) | void | Interface definition for a callback to be invoked when a gesture event is dispatched to this view.|
+
+Sample
+======
+
+```
+public class SampleActivity extends SwipeBaseActivity {
+    @NotNull
+    @Override
+    public SwipeBaseActivity.Direction getDirection() {
+        return SwipeBaseActivity.Direction.RIGHT;
+    }
+
+    @Override
+    protected int getShadowColor() {
+        return Color.parseColor("#74000000");
+    }
+}
+```
 
 Download
 ========
