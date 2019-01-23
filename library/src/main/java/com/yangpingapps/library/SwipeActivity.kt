@@ -5,13 +5,10 @@ import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.FrameLayout
+import com.yangpingapps.library.SwipeListener.Direction
 
-open abstract class SwipeBaseActivity : Activity(), OnSwipeListener {
+open abstract class SwipeActivity : Activity(), OnSwipeListener {
     abstract fun getDirection(): Direction
-
-    enum class Direction {
-        RIGHT, LEFT, UP, DOWN
-    }
 
     private lateinit var viewShadow: View
 
@@ -30,7 +27,7 @@ open abstract class SwipeBaseActivity : Activity(), OnSwipeListener {
 
     private fun getContentLayout(layoutResID: Int): View {
         val view = LayoutInflater.from(this).inflate(layoutResID, null)
-        view.setOnTouchListener(SwipeListener(this, getDirection()))
+        view.setOnTouchListener(SwipeListener(this, this, getDirection()))
         val root = FrameLayout(this)
         viewShadow = View(this)
         viewShadow.setBackgroundColor(getShadowColor())

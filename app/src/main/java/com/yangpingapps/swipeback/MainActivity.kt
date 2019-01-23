@@ -28,7 +28,11 @@ class MainActivity : AppCompatActivity() {
         val bundle = Bundle()
         bundle.putString("DIRECTION", direction)
         bundle.putBoolean("ANIMTION", rb_on.isChecked)
-        val intent = Intent(this, Main2Activity::class.java)
+        val intent = if (rb_mode1.isChecked) {
+            Intent(this, Main2Activity::class.java)
+        } else {
+            Intent(this, Main3Activity::class.java)
+        }
         intent.putExtras(bundle)
         startActivity(intent)
     }

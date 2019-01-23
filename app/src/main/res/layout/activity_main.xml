@@ -78,4 +78,36 @@
                 android:layout_weight="1"
                 android:text="OFF"/>
     </RadioGroup>
+    <TextView
+            android:id="@+id/textview2"
+            android:text="Mode:"
+            android:textSize="16dp"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:gravity="center_vertical"
+            app:layout_constraintEnd_toEndOf="@id/textview"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/textview"/>
+    <RadioGroup
+            android:layout_width="0dp"
+            app:layout_constraintBottom_toBottomOf="@id/textview2"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="@id/textview2"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/textview2"
+            android:orientation="horizontal">
+        <RadioButton
+                android:id="@+id/rb_mode1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:checked="true"
+                android:text="extand"/>
+        <RadioButton
+                android:id="@+id/rb_mode2"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="setting"/>
+    </RadioGroup>
 </android.support.constraint.ConstraintLayout>
