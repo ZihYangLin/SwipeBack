@@ -5,7 +5,7 @@ Finish the activity by using a swipe-right gesture.
 Demo
 ======
 
-<img src="gifs/sample.gif" width="246">
+<img src="gifs/sample_1_0_1.gif" width="246">
 
 
 Methods
