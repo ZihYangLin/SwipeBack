@@ -1,5 +1,5 @@
 # SwipeBack
-Finish the activity by using a swipe-right gesture.
+Use the swipe gesture with four directions(right, left, down, up) to finish the activity.
 
 
 Demo
@@ -15,7 +15,7 @@ Methods
 | :---:   | :-:  | :-:  |
 | getShadowColor() | Int | Setting the color of shadow. |
 | getLaunchAnimation() | Boolean | Setting the switch of launch-activity animation. |
-| abstract getDirection() | Direction | Setting the direction of the swiping gesture. |
+| abstract getDirection() | Direction | Setting the direction of the swipe gesture. |
 | onSwiped(float persent, float position) | void | Interface definition for a callback to be invoked when a gesture event is dispatched to this view.|
 
 Sample
