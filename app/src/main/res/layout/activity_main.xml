@@ -6,16 +6,76 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="#e0fffb6c"
+        android:padding="16dp"
         tools:context=".MainActivity">
 
-    <TextView
-            android:layout_width="wrap_content"
+
+    <Button
+            android:id="@+id/btn_right"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:id="@+id/textView"
-            android:text="Hello World!"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
+            android:text="RIGHT"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"/>
 
+
+    <Button
+            android:id="@+id/btn_left"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="LEFT"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/btn_right"/>
+
+    <Button
+            android:id="@+id/btn_down"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="DOWN"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/btn_left"/>
+
+    <Button
+            android:id="@+id/btn_up"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="UP"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/btn_down"/>
+
+    <TextView
+            android:id="@+id/textview"
+            android:text="@string/text1"
+            android:textSize="16dp"
+            android:layout_width="wrap_content"
+            android:layout_height="48dp"
+            android:gravity="center"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/btn_up"/>
+    <RadioGroup
+            android:layout_width="0dp"
+            app:layout_constraintBottom_toBottomOf="@id/textview"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="@id/textview"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/textview"
+            android:orientation="horizontal">
+        <RadioButton
+                android:id="@+id/rb_on"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:checked="true"
+                android:text="ON"/>
+        <RadioButton
+                android:id="@+id/rb_off"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="OFF"/>
+    </RadioGroup>
 </android.support.constraint.ConstraintLayout>
