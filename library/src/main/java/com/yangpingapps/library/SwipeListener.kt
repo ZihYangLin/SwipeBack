@@ -12,7 +12,7 @@ import android.view.WindowManager
 
 class SwipeListener(
     private val activity: SwipeBaseActivity,
-    private val direction: SwipeBaseActivity.Companion.Direction
+    private val direction: SwipeBaseActivity.Direction
 ) :
     View.OnTouchListener {
     data class ActionTarget(
@@ -36,8 +36,8 @@ class SwipeListener(
     private val screenWidth: Float = getScreenSize(activity).widthPixels.toFloat()
     private val screenHeight: Float = getScreenSize(activity).heightPixels.toFloat()
     private val SWIPE_MIN_DISTANCE = when (direction) {
-        SwipeBaseActivity.Companion.Direction.RIGHT, SwipeBaseActivity.Companion.Direction.LEFT -> screenWidth * 2 / 5
-        SwipeBaseActivity.Companion.Direction.UP, SwipeBaseActivity.Companion.Direction.DOWN -> screenHeight * 2 / 5
+        SwipeBaseActivity.Direction.RIGHT, SwipeBaseActivity.Direction.LEFT -> screenWidth * 2 / 5
+        SwipeBaseActivity.Direction.UP, SwipeBaseActivity.Direction.DOWN -> screenHeight * 2 / 5
     }
     private val mTarget = ActionTarget()
 
@@ -52,35 +52,35 @@ class SwipeListener(
                 }
                 MotionEvent.ACTION_MOVE -> {
                     mTarget.isFinished = when (direction) {
-                        SwipeBaseActivity.Companion.Direction.RIGHT -> event.rawX - mTarget.downX > SWIPE_MIN_DISTANCE
-                        SwipeBaseActivity.Companion.Direction.LEFT -> mTarget.downX - event.rawX > SWIPE_MIN_DISTANCE
-                        SwipeBaseActivity.Companion.Direction.DOWN -> event.rawY - mTarget.downY > SWIPE_MIN_DISTANCE
-                        SwipeBaseActivity.Companion.Direction.UP -> mTarget.downY - event.rawY > SWIPE_MIN_DISTANCE
+                        SwipeBaseActivity.Direction.RIGHT -> event.rawX - mTarget.downX > SWIPE_MIN_DISTANCE
+                        SwipeBaseActivity.Direction.LEFT -> mTarget.downX - event.rawX > SWIPE_MIN_DISTANCE
+                        SwipeBaseActivity.Direction.DOWN -> event.rawY - mTarget.downY > SWIPE_MIN_DISTANCE
+                        SwipeBaseActivity.Direction.UP -> mTarget.downY - event.rawY > SWIPE_MIN_DISTANCE
                     }
                     mTarget.positionX = when (direction) {
-                        SwipeBaseActivity.Companion.Direction.RIGHT -> if (event.rawX - mTarget.downX > 0) event.rawX - mTarget.downX else 0f
-                        SwipeBaseActivity.Companion.Direction.LEFT -> if (mTarget.downX - event.rawX > 0) mTarget.downX - event.rawX else 0f
+                        SwipeBaseActivity.Direction.RIGHT -> if (event.rawX - mTarget.downX > 0) event.rawX - mTarget.downX else 0f
+                        SwipeBaseActivity.Direction.LEFT -> if (mTarget.downX - event.rawX > 0) mTarget.downX - event.rawX else 0f
                         else -> 0f
                     }
                     mTarget.positionY = when (direction) {
-                        SwipeBaseActivity.Companion.Direction.DOWN -> if (event.rawY - mTarget.downY > 0) event.rawY - mTarget.downY else 0f
-                        SwipeBaseActivity.Companion.Direction.UP -> if (mTarget.downY - event.rawY > 0) mTarget.downY - event.rawY else 0f
+                        SwipeBaseActivity.Direction.DOWN -> if (event.rawY - mTarget.downY > 0) event.rawY - mTarget.downY else 0f
+                        SwipeBaseActivity.Direction.UP -> if (mTarget.downY - event.rawY > 0) mTarget.downY - event.rawY else 0f
                         else -> 0f
                     }
                     when (direction) {
-                        SwipeBaseActivity.Companion.Direction.RIGHT -> {
+                        SwipeBaseActivity.Direction.RIGHT -> {
                             activity.onSwiped(Math.min(mTarget.positionX / screenWidth, 1f), mTarget.positionX)
                             v?.translationX = mTarget.positionX
                         }
-                        SwipeBaseActivity.Companion.Direction.LEFT -> {
+                        SwipeBaseActivity.Direction.LEFT -> {
                             activity.onSwiped(Math.min(mTarget.positionX / screenWidth, 1f), -mTarget.positionX)
                             v?.translationX = -mTarget.positionX
                         }
-                        SwipeBaseActivity.Companion.Direction.DOWN -> {
+                        SwipeBaseActivity.Direction.DOWN -> {
                             activity.onSwiped(Math.min(mTarget.positionY / screenHeight, 1f), mTarget.positionY)
                             v?.translationY = mTarget.positionY
                         }
-                        SwipeBaseActivity.Companion.Direction.UP -> {
+                        SwipeBaseActivity.Direction.UP -> {
                             activity.onSwiped(Math.min(mTarget.positionY / screenHeight, 1f), -mTarget.positionY)
                             v?.translationY = -mTarget.positionY
                         }
@@ -90,9 +90,9 @@ class SwipeListener(
                 MotionEvent.ACTION_UP -> {
                     if (System.currentTimeMillis() - mTarget.targetTime < 300) {
                         when (direction) {
-                            SwipeBaseActivity.Companion.Direction.LEFT, SwipeBaseActivity.Companion.Direction.RIGHT -> {
+                            SwipeBaseActivity.Direction.LEFT, SwipeBaseActivity.Direction.RIGHT -> {
                                 if (mTarget.positionX > 200) {
-                                    val anim = if (direction == SwipeBaseActivity.Companion.Direction.RIGHT) {
+                                    val anim = if (direction == SwipeBaseActivity.Direction.RIGHT) {
                                         ValueAnimator.ofFloat(mTarget.positionX, screenWidth)
                                     } else {
                                         ValueAnimator.ofFloat(-mTarget.positionX, -screenWidth)
@@ -119,9 +119,9 @@ class SwipeListener(
                                     return true
                                 }
                             }
-                            SwipeBaseActivity.Companion.Direction.DOWN, SwipeBaseActivity.Companion.Direction.UP -> {
+                            SwipeBaseActivity.Direction.DOWN, SwipeBaseActivity.Direction.UP -> {
                                 if (mTarget.positionY > 200) {
-                                    val anim = if (direction == SwipeBaseActivity.Companion.Direction.DOWN) {
+                                    val anim = if (direction == SwipeBaseActivity.Direction.DOWN) {
                                         ValueAnimator.ofFloat(mTarget.positionY, screenHeight)
                                     } else {
                                         ValueAnimator.ofFloat(-mTarget.positionY, -screenHeight)
@@ -153,8 +153,8 @@ class SwipeListener(
 
                     if (mTarget.isFinished) {
                         when (direction) {
-                            SwipeBaseActivity.Companion.Direction.RIGHT, SwipeBaseActivity.Companion.Direction.LEFT -> {
-                                val anim = if (direction == SwipeBaseActivity.Companion.Direction.RIGHT) {
+                            SwipeBaseActivity.Direction.RIGHT, SwipeBaseActivity.Direction.LEFT -> {
+                                val anim = if (direction == SwipeBaseActivity.Direction.RIGHT) {
                                     ValueAnimator.ofFloat(mTarget.positionX, screenWidth)
                                 } else {
                                     ValueAnimator.ofFloat(-mTarget.positionX, -screenWidth)
@@ -179,8 +179,8 @@ class SwipeListener(
                                 })
                                 anim.start()
                             }
-                            SwipeBaseActivity.Companion.Direction.UP, SwipeBaseActivity.Companion.Direction.DOWN -> {
-                                val anim = if (direction == SwipeBaseActivity.Companion.Direction.DOWN) {
+                            SwipeBaseActivity.Direction.UP, SwipeBaseActivity.Direction.DOWN -> {
+                                val anim = if (direction == SwipeBaseActivity.Direction.DOWN) {
                                     ValueAnimator.ofFloat(mTarget.positionY, screenHeight)
                                 } else {
                                     ValueAnimator.ofFloat(-mTarget.positionY, -screenHeight)
@@ -209,15 +209,15 @@ class SwipeListener(
 
                     } else {
                         val startValue = when (direction) {
-                            SwipeBaseActivity.Companion.Direction.RIGHT -> mTarget.positionX
-                            SwipeBaseActivity.Companion.Direction.LEFT -> -mTarget.positionX
-                            SwipeBaseActivity.Companion.Direction.UP -> -mTarget.positionY
-                            SwipeBaseActivity.Companion.Direction.DOWN -> mTarget.positionY
+                            SwipeBaseActivity.Direction.RIGHT -> mTarget.positionX
+                            SwipeBaseActivity.Direction.LEFT -> -mTarget.positionX
+                            SwipeBaseActivity.Direction.UP -> -mTarget.positionY
+                            SwipeBaseActivity.Direction.DOWN -> mTarget.positionY
                         }
                         val anim = ValueAnimator.ofFloat(startValue, 0f)
                         anim.duration = 200
                         anim.addUpdateListener { animation ->
-                            if (direction == SwipeBaseActivity.Companion.Direction.LEFT || direction == SwipeBaseActivity.Companion.Direction.RIGHT) {
+                            if (direction == SwipeBaseActivity.Direction.LEFT || direction == SwipeBaseActivity.Direction.RIGHT) {
                                 v?.translationX = (animation.animatedValue as Float)
                             } else {
                                 v?.translationY = (animation.animatedValue as Float)
