@@ -27,7 +27,7 @@ class Main3Activity : AppCompatActivity() {
             SwipeListener.Direction.RIGHT
         }
 
-        SwipeBack(this, mDirection)
+        SwipeBack.init(this, mDirection)
             .setLaunchAnimation(mAnimation)
             .setContentView(R.layout.activity_main3)
             .setShadowColor(Color.parseColor("#7400ff00"))
