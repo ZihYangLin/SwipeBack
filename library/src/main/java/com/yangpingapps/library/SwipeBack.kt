@@ -5,7 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.widget.FrameLayout
 
-class SwipeBack(activity: Activity, direction: SwipeListener.Direction) {
+class SwipeBack private constructor(activity: Activity, direction: SwipeListener.Direction) {
     data class Params(
         val activity: Activity,
         val direction: SwipeListener.Direction,
@@ -14,6 +14,12 @@ class SwipeBack(activity: Activity, direction: SwipeListener.Direction) {
         var shadow: Int = -1,
         var isAnimation: Boolean = true
     )
+
+    companion object {
+        fun init(activity: Activity, direction: SwipeListener.Direction): SwipeBack {
+            return SwipeBack(activity, direction)
+        }
+    }
 
     private val mParams = Params(activity, direction)
 
