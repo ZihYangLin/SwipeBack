@@ -29,7 +29,7 @@ AndroidManifest
 </activity>
 ```
 
-Methon1:Extend
+Method 1: Extend
 ```
 public class SampleActivity extends SwipeActivity {
     @NotNull
@@ -40,7 +40,7 @@ public class SampleActivity extends SwipeActivity {
 }
 ```
 
-Methon2:Setting
+Method 2: Setting
 ```
 public class SampleActivity extends AppCompatActivity implements OnSwipeListener {
     @Override
