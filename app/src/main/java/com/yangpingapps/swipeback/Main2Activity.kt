@@ -2,9 +2,10 @@ package com.yangpingapps.swipeback
 
 import android.graphics.Color
 import android.os.Bundle
-import com.yangpingapps.library.SwipeBaseActivity
+import com.yangpingapps.library.SwipeActivity
+import com.yangpingapps.library.SwipeListener.Direction
 
-class Main2Activity : SwipeBaseActivity() {
+class Main2Activity : SwipeActivity() {
     override fun getDirection(): Direction = mDirection
 
     private lateinit var mDirection: Direction

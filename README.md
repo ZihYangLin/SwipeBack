@@ -21,18 +21,43 @@ Methods
 
 Sample
 ======
-
+AndroidManifest
 ```
-public class SampleActivity extends SwipeBaseActivity {
+<activity
+      android:name=".SampleActivity"
+      android:theme="@style/Theme.SwipeBack">
+</activity>
+```
+
+Methon1:Extend
+```
+public class SampleActivity extends SwipeActivity {
     @NotNull
     @Override
     public SwipeBaseActivity.Direction getDirection() {
         return SwipeBaseActivity.Direction.RIGHT;
     }
+}
+```
+
+Methon2:Setting
+```
+public class SampleActivity extends AppCompatActivity implements OnSwipeListener {
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        SwipeBack.Companion.init(this, SwipeListener.Direction.RIGHT)
+                .setLaunchAnimation(true)
+                .setContentView(R.layout.activity_main3)
+                .setShadowColor(Color.parseColor("#7400ff00"))
+                .attach();
+    }
+
 
     @Override
-    protected int getShadowColor() {
-        return Color.parseColor("#74000000");
+    protected void onPause() {
+        super.onPause();
+        overridePendingTransition(0, android.R.anim.fade_out);
     }
 }
 ```
@@ -43,13 +68,13 @@ Download
 <dependency>
   <groupId>com.yangping</groupId>
   <artifactId>swipeback</artifactId>
-  <version>1.0.1</version>
+  <version>1.0.2</version>
   <type>pom</type>
 </dependency>
 ```
 or Gradle ( jcenter ):
 ```groovy
-implementation 'com.yangping:swipeback:1.0.1'
+implementation 'com.yangping:swipeback:1.0.2'
 ```
 
 
