@@ -1,8 +1,11 @@
 package com.yangpingapps.library
 
 import android.app.Activity
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
+import android.widget.EditText
 import android.widget.FrameLayout
 
 class SwipeBack private constructor(activity: Activity, direction: SwipeListener.Direction) {
@@ -74,12 +77,13 @@ class SwipeBack private constructor(activity: Activity, direction: SwipeListener
         }
         val viewShadow = View(params.activity)
         val view = LayoutInflater.from(params.activity).inflate(params.layoutResID, null)
-        view.setOnTouchListener(SwipeListener(params.activity, object : OnSwipeListener {
+        setTouchListener(view, SwipeListener(view, params.activity, object : OnSwipeListener {
             override fun onSwiped(persent: Float, position: Float) {
                 viewShadow.alpha = 1 - persent
                 mParams.listener?.onSwiped(persent, position)
             }
         }, params.direction))
+
         val root = FrameLayout(params.activity)
         viewShadow.setBackgroundColor(params.shadow)
         val layoutParams = FrameLayout.LayoutParams(
@@ -89,5 +93,36 @@ class SwipeBack private constructor(activity: Activity, direction: SwipeListener
         root.addView(viewShadow, layoutParams)
         root.addView(view)
         return root
+    }
+
+
+    private fun setTouchListener2(activity: Activity,direction: SwipeListener.Direction, view: View, shadow: View, listener: OnSwipeListener?) {
+        Log.i("#ocean#3", "setTouchListener=>${view.toString()}")
+        if (view !is EditText) {
+            view.setOnTouchListener(SwipeListener(view, activity, object : OnSwipeListener {
+                override fun onSwiped(persent: Float, position: Float) {
+                    shadow.alpha = 1 - persent
+                    mParams.listener?.onSwiped(persent, position)
+                }
+            },direction))
+        }
+        if (view is ViewGroup) {
+            for (i in 0 until view.childCount) {
+                val innerView = view.getChildAt(i)
+                setTouchListener2(activity, direction, innerView, shadow, listener)
+            }
+        }
+    }
+
+
+    private fun setTouchListener(view: View, listener: SwipeListener) {
+        Log.i("#ocean#3", "setTouchListener=>${view.toString()}")
+        view.setOnTouchListener(listener)
+        if (view is ViewGroup) {
+            for (i in 0 until view.childCount) {
+                val innerView = view.getChildAt(i)
+                setTouchListener(innerView, listener)
+            }
+        }
     }
 }
