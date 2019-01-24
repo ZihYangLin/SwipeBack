@@ -8,4 +8,13 @@
         android:background="@android:color/white"
         tools:context=".Main2Activity">
 
+    <android.support.v7.widget.RecyclerView
+            android:id="@+id/recyclerview"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_width="match_parent"
+            android:background="#6dc9f7"
+            android:layout_height="match_parent"/>
 </android.support.constraint.ConstraintLayout>

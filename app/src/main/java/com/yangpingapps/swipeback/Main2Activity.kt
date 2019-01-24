@@ -2,8 +2,10 @@ package com.yangpingapps.swipeback
 
 import android.graphics.Color
 import android.os.Bundle
+import android.support.v7.widget.LinearLayoutManager
 import com.yangpingapps.library.SwipeActivity
 import com.yangpingapps.library.SwipeListener.Direction
+import kotlinx.android.synthetic.main.activity_main2.*
 
 class Main2Activity : SwipeActivity() {
     override fun getDirection(): Direction = mDirection
@@ -27,6 +29,8 @@ class Main2Activity : SwipeActivity() {
             Direction.RIGHT
         }
         setContentView(R.layout.activity_main2)
+        recyclerview.adapter = SampleAdapter()
+        recyclerview.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
     }
 
     override fun getShadowColor(): Int {
