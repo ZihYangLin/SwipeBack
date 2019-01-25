@@ -5,9 +5,7 @@ import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.EditText
 import android.widget.FrameLayout
-import android.widget.ScrollView
 import com.yangpingapps.library.SwipeListener.Direction
 
 open abstract class SwipeActivity : Activity(), OnSwipeListener {
@@ -31,7 +29,6 @@ open abstract class SwipeActivity : Activity(), OnSwipeListener {
     private fun getContentLayout(layoutResID: Int): View {
         val view = LayoutInflater.from(this).inflate(layoutResID, null)
         setTouchListener(view, SwipeListener(view, this, this, getDirection()))
-//        view.setOnTouchListener(SwipeListener(view, this, this, getDirection()))
         val root = FrameLayout(this)
         viewShadow = View(this)
         viewShadow.setBackgroundColor(getShadowColor())
@@ -41,23 +38,11 @@ open abstract class SwipeActivity : Activity(), OnSwipeListener {
         )
         root.addView(viewShadow, params)
         root.addView(view)
-//        val gestureView = View(this)
-//        val params2 = FrameLayout.LayoutParams(
-//            FrameLayout.LayoutParams.MATCH_PARENT
-//            , FrameLayout.LayoutParams.MATCH_PARENT
-//        )
-//        if (view is ViewGroup){
-//            view.addView(gestureView, params2)
-//        }
-//        gestureView.setBackgroundColor(getShadowColor())
-//        setTouchListener(gestureView, SwipeListener(view, this, this, getDirection()))
         return root
     }
 
     private fun setTouchListener(view: View, listener: SwipeListener) {
-        if (view !is EditText && view !is ScrollView) {
-            view.setOnTouchListener(listener)
-        }
+        view.setOnTouchListener(listener)
         if (view is ViewGroup) {
             for (i in 0 until view.childCount) {
                 val innerView = view.getChildAt(i)

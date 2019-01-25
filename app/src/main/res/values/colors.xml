@@ -6,4 +6,6 @@
     <color name="colorPrimary2">#91a7ff</color>
     <color name="colorPrimaryDark2">#0b00a9</color>
     <color name="colorAccent2">#d8931b</color>
+
+    <color name="pressedColor">#400abcb3</color>
 </resources>

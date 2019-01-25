@@ -96,7 +96,13 @@ class SwipeBack private constructor(activity: Activity, direction: SwipeListener
     }
 
 
-    private fun setTouchListener2(activity: Activity,direction: SwipeListener.Direction, view: View, shadow: View, listener: OnSwipeListener?) {
+    private fun setTouchListener2(
+        activity: Activity,
+        direction: SwipeListener.Direction,
+        view: View,
+        shadow: View,
+        listener: OnSwipeListener?
+    ) {
         Log.i("#ocean#3", "setTouchListener=>${view.toString()}")
         if (view !is EditText) {
             view.setOnTouchListener(SwipeListener(view, activity, object : OnSwipeListener {
@@ -104,7 +110,7 @@ class SwipeBack private constructor(activity: Activity, direction: SwipeListener
                     shadow.alpha = 1 - persent
                     mParams.listener?.onSwiped(persent, position)
                 }
-            },direction))
+            }, direction))
         }
         if (view is ViewGroup) {
             for (i in 0 until view.childCount) {
@@ -116,12 +122,14 @@ class SwipeBack private constructor(activity: Activity, direction: SwipeListener
 
 
     private fun setTouchListener(view: View, listener: SwipeListener) {
-        Log.i("#ocean#3", "setTouchListener=>${view.toString()}")
+        Log.i("#ocean#3", "${view.callOnClick()}#setTouchListener=>${view.toString()}")
         view.setOnTouchListener(listener)
         if (view is ViewGroup) {
-            for (i in 0 until view.childCount) {
-                val innerView = view.getChildAt(i)
-                setTouchListener(innerView, listener)
+            if (view.childCount > 0) {
+                for (i in 0 until view.childCount) {
+                    val innerView = view.getChildAt(i)
+                    setTouchListener(innerView, listener)
+                }
             }
         }
     }
