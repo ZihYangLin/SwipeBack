@@ -34,8 +34,8 @@ Method 1: Extend
 public class SampleActivity extends SwipeActivity {
     @NotNull
     @Override
-    public SwipeBaseActivity.Direction getDirection() {
-        return SwipeBaseActivity.Direction.RIGHT;
+    public SwipeListener.Direction getDirection() {
+        return SwipeListener.Direction.RIGHT;
     }
 }
 ```
