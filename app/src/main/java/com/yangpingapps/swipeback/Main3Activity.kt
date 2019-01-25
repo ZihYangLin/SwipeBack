@@ -35,8 +35,11 @@ class Main3Activity : AppCompatActivity() {
             .setShadowColor(Color.parseColor("#7400ff00"))
             .attach()
         recyclerview.adapter = SampleAdapter()
-        recyclerview.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
-
+        if(mDirection == SwipeListener.Direction.LEFT || mDirection == SwipeListener.Direction.RIGHT) {
+            recyclerview.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
+        }else{
+            recyclerview.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
+        }
     }
 
 

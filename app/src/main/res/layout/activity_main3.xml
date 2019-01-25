@@ -15,11 +15,14 @@
             app:layout_constraintTop_toTopOf="parent"
             android:layout_width="0dp"
             android:background="#6dc9f7"
-            android:layout_height="50dp"/>
+            android:layout_height="250dp"/>
     <TextView
             android:id="@+id/button"
             android:layout_width="match_parent"
             android:layout_height="48dp"
+            android:text="TextView"
+            android:textSize="16dp"
+            android:gravity="center"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/recyclerview"/>
@@ -27,9 +30,9 @@
             android:id="@+id/textview"
             android:layout_width="match_parent"
             android:layout_height="140dp"
+            android:text="Button"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:background="#79a5d1"
             app:layout_constraintTop_toBottomOf="@id/button"/>
     <FrameLayout
             android:id="@+id/layout"

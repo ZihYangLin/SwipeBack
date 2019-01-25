@@ -30,7 +30,11 @@ class Main2Activity : SwipeActivity() {
         }
         setContentView(R.layout.activity_main2)
         recyclerview.adapter = SampleAdapter()
-        recyclerview.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
+        if(mDirection == Direction.LEFT || mDirection == Direction.RIGHT) {
+            recyclerview.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
+        }else{
+            recyclerview.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
+        }
     }
 
     override fun getShadowColor(): Int {
