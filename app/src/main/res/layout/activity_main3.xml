@@ -43,7 +43,9 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/textview">
-        <TextView android:layout_width="match_parent" android:layout_height="30dp"
+        <TextView android:layout_width="match_parent"
+                  android:layout_height="30dp"
+                  android:id="@+id/ttt"
                   android:background="#ff7070"/>
         <Button
                 android:layout_width="match_parent"
@@ -81,7 +83,6 @@
                         android:orientation="vertical">
 
                     <LinearLayout
-                            android:id="@+id/layout_1"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:foreground="@drawable/background_pressed_green"
@@ -94,6 +95,7 @@
                                 android:src="@drawable/ic_launcher_foreground"/>
 
                         <TextView
+                                android:id="@+id/layout_1"
                                 android:layout_width="0dp"
                                 android:layout_height="48dp"
                                 android:layout_weight="1"

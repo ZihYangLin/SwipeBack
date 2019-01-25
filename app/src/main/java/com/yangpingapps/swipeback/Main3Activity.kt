@@ -42,8 +42,8 @@ class Main3Activity : AppCompatActivity() {
             recyclerview.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
         }
 
-        layout_1.setOnClickListener { Toast.makeText(this,"haha",Toast.LENGTH_LONG).show() }
-        button.setOnClickListener {  }
+        layout_1.setOnClickListener { Toast.makeText(this,"haha",Toast.LENGTH_SHORT).show() }
+        ttt.setOnClickListener { Toast.makeText(this,"haha",Toast.LENGTH_SHORT).show() }
     }
 
 
