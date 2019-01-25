@@ -9,6 +9,7 @@ import android.util.DisplayMetrics
 import android.util.Log
 import android.view.MotionEvent
 import android.view.View
+import android.view.ViewGroup
 import android.view.WindowManager
 
 
@@ -65,15 +66,17 @@ class SwipeListener(
         if (event != null) {
             when (event.action) {
                 MotionEvent.ACTION_DOWN -> {
+                    Log.i("#ocean#", "ACTION_DOWN ${v?.toString()}")
                     isLocked = false
                     mTarget.isFinished = false
                     mTarget.targetTime = System.currentTimeMillis()
                     mTarget.downX = event.rawX
                     mTarget.downY = event.rawY
                     orientation = Orientation.Horizontal
-                    return true
+                    return v is ViewGroup
                 }
                 MotionEvent.ACTION_MOVE -> {
+                    Log.i("#ocean#", "ACTION_MOVE")
 
                     mTarget.positionX = if (Math.abs(event.rawX - mTarget.downX) > 0) event.rawX - mTarget.downX else 0f
                     mTarget.positionY = if (Math.abs(event.rawY - mTarget.downY) > 0) event.rawY - mTarget.downY else 0f
@@ -128,6 +131,14 @@ class SwipeListener(
 
                 }
                 MotionEvent.ACTION_UP -> {
+                    if (Math.abs(mTarget.positionX) < 20 && Math.abs(mTarget.positionY) < 20) {
+                        if (v != null) {
+                            if (!v.callOnClick()) {
+                                v.performClick()
+                            }
+                        }
+                    }
+                    Log.i("#ocean#", "ACTION_UP")
                     isLocked = false
                     when (direction) {
                         Direction.RIGHT -> {
@@ -221,6 +232,7 @@ class SwipeListener(
         }
         return false
     }
+
 
     private fun returnBack() {
         Log.i(TAG, "returnBack")
