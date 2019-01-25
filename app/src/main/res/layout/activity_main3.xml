@@ -15,7 +15,7 @@
             app:layout_constraintTop_toTopOf="parent"
             android:layout_width="0dp"
             android:background="#6dc9f7"
-            android:layout_height="250dp"/>
+            android:layout_height="220dp"/>
     <TextView
             android:id="@+id/button"
             android:layout_width="match_parent"
@@ -29,11 +29,32 @@
     <Button
             android:id="@+id/textview"
             android:layout_width="match_parent"
-            android:layout_height="140dp"
+            android:layout_height="50dp"
             android:text="Button"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/button"/>
+    <FrameLayout
+            android:id="@+id/framelayout"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:text="Button"
+            android:background="#ff7fe8"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/textview">
+        <TextView android:layout_width="match_parent" android:layout_height="30dp"
+                  android:background="#ff7070"/>
+        <Button
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:layout_gravity="bottom"
+                android:text="Button"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/button"/>
+    </FrameLayout>
+
     <FrameLayout
             android:id="@+id/layout"
             android:layout_width="match_parent"
@@ -42,21 +63,229 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             android:background="#79d1bf"
-            app:layout_constraintTop_toBottomOf="@id/textview">
+            app:layout_constraintTop_toBottomOf="@id/framelayout">
         <LinearLayout
-                android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
-            <View
-                    android:background="#f5b151"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+            <ScrollView
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
-                    android:layout_weight="1"/>
-            <View
-                    android:background="#f55151"
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_weight="1"/>
+                    android:layout_weight="1"
+                    android:background="#eeffffff">
+
+                <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                    <LinearLayout
+                            android:id="@+id/layout_1"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:foreground="@drawable/background_pressed_green"
+                            android:orientation="horizontal"
+                            android:padding="8dp">
+
+                        <ImageView
+                                android:layout_width="48dp"
+                                android:layout_height="48dp"
+                                android:src="@drawable/ic_launcher_foreground"/>
+
+                        <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="48dp"
+                                android:layout_weight="1"
+                                android:gravity="center_vertical"
+                                android:padding="8dp"
+                                android:text="國道5號路況資訊"
+                                android:textColor="@android:color/black"
+                                android:textSize="18dp"/>
+
+                        <ImageView
+                                android:layout_width="48dp"
+                                android:layout_height="match_parent"
+                                android:scaleType="center"
+                                android:src="@drawable/ic_keyboard_arrow_right_black_24dp"/>
+                    </LinearLayout>
+
+                    <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:layout_marginLeft="16dp"
+                            android:layout_marginRight="16dp"
+                            android:background="#000000"/>
+
+                    <LinearLayout
+                            android:id="@+id/layout_2"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:foreground="@drawable/background_pressed_green"
+                            android:orientation="horizontal"
+                            android:padding="8dp">
+
+                        <ImageView
+                                android:layout_width="48dp"
+                                android:layout_height="48dp"
+                                android:src="@drawable/ic_launcher_foreground"/>
+
+                        <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="48dp"
+                                android:layout_weight="1"
+                                android:gravity="center_vertical"
+                                android:padding="8dp"
+                                android:text="桃園機場路況資訊"
+                                android:textColor="@android:color/black"
+                                android:textSize="18dp"/>
+
+                        <ImageView
+                                android:layout_width="48dp"
+                                android:layout_height="match_parent"
+                                android:scaleType="center"
+                                android:src="@drawable/ic_keyboard_arrow_right_black_24dp"/>
+                    </LinearLayout>
+
+                    <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:layout_marginLeft="16dp"
+                            android:layout_marginRight="16dp"
+                            android:background="#000000"/>
+
+                    <LinearLayout
+                            android:id="@+id/layout_3"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:foreground="@drawable/background_pressed_green"
+                            android:orientation="horizontal"
+                            android:padding="8dp">
+
+                        <ImageView
+                                android:layout_width="48dp"
+                                android:layout_height="48dp"
+                                android:src="@drawable/ic_launcher_foreground"/>
+
+                        <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="48dp"
+                                android:layout_weight="1"
+                                android:gravity="center_vertical"
+                                android:padding="8dp"
+                                android:text="臺中都會區出口資訊"
+                                android:textColor="@android:color/black"
+                                android:textSize="18dp"/>
+
+                        <ImageView
+                                android:layout_width="48dp"
+                                android:layout_height="match_parent"
+                                android:scaleType="center"
+                                android:src="@drawable/ic_keyboard_arrow_right_black_24dp"/>
+                    </LinearLayout>
+
+                    <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:layout_marginLeft="16dp"
+                            android:layout_marginRight="16dp"
+                            android:background="#000000"/>
+
+                    <LinearLayout
+                            android:id="@+id/layout_4"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:foreground="@drawable/background_pressed_green"
+                            android:orientation="horizontal"
+                            android:padding="8dp">
+
+                        <ImageView
+                                android:layout_width="48dp"
+                                android:layout_height="48dp"
+                                android:src="@drawable/ic_launcher_foreground"/>
+
+                        <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="48dp"
+                                android:layout_weight="1"
+                                android:gravity="center_vertical"
+                                android:padding="8dp"
+                                android:text="臺南都會區旅行時間資訊"
+                                android:textColor="@android:color/black"
+                                android:lines="1"
+                                android:ellipsize="end"
+                                android:textSize="18dp"/>
+
+                        <ImageView
+                                android:layout_width="48dp"
+                                android:layout_height="match_parent"
+                                android:scaleType="center"
+                                android:src="@drawable/ic_keyboard_arrow_right_black_24dp"/>
+                    </LinearLayout>
+
+                    <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:layout_marginLeft="16dp"
+                            android:layout_marginRight="16dp"
+                            android:background="#000000"/>
+
+                    <LinearLayout
+                            android:id="@+id/layout_5"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:foreground="@drawable/background_pressed_green"
+                            android:orientation="horizontal"
+                            android:padding="8dp">
+
+                        <ImageView
+                                android:layout_width="48dp"
+                                android:layout_height="48dp"
+                                android:src="@drawable/ic_launcher_foreground"/>
+
+                        <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="48dp"
+                                android:layout_weight="1"
+                                android:gravity="center_vertical"
+                                android:padding="8dp"
+                                android:text="高雄都會區出口資訊"
+                                android:textColor="@android:color/black"
+                                android:textSize="18dp"/>
+
+                        <ImageView
+                                android:layout_width="48dp"
+                                android:layout_height="match_parent"
+                                android:scaleType="center"
+                                android:src="@drawable/ic_keyboard_arrow_right_black_24dp"/>
+                    </LinearLayout>
+
+                    <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:layout_marginLeft="16dp"
+                            android:layout_marginRight="16dp"
+                            android:background="#000000"/>
+
+                    <TextView
+                            android:id="@+id/tv_warnning"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:padding="16dp"
+                            android:textColorLink="@color/colorPrimaryDark2"
+                            android:textSize="14dp"/>
+
+                    <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:linksClickable="true"
+                            android:paddingStart="16dp"
+                            android:paddingEnd="16dp"
+                            android:text="※資料時間並非即時，依照高速公路局提供為主。"
+                            android:textColorLink="@color/colorPrimaryDark2"
+                            android:textSize="14dp"/>
+                </LinearLayout>
+            </ScrollView>
         </LinearLayout>
     </FrameLayout>
 </android.support.constraint.ConstraintLayout>

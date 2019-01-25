@@ -4,6 +4,7 @@ import android.graphics.Color
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
+import android.widget.Toast
 import com.yangpingapps.library.SwipeBack
 import com.yangpingapps.library.SwipeListener
 import kotlinx.android.synthetic.main.activity_main3.*
@@ -40,6 +41,9 @@ class Main3Activity : AppCompatActivity() {
         }else{
             recyclerview.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
         }
+
+        layout_1.setOnClickListener { Toast.makeText(this,"haha",Toast.LENGTH_LONG).show() }
+        button.setOnClickListener {  }
     }
 
 
