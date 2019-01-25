@@ -33,6 +33,8 @@ class SwipeListener(
     )
 
     companion object {
+        const val TAG = "SwipeListener"
+
         data class Screen(val widthPixels: Int, val heightPixels: Int)
 
         fun getScreenSize(context: Context): Screen {
@@ -53,7 +55,10 @@ class SwipeListener(
         Direction.UP, Direction.DOWN -> screenHeight * 2 / 5
     }
     private val FLING_BACK_DISTANCE = 200
-    private val FLING_BACK_DURATION = 300
+    private val FLING_BACK_DURATION = when (direction) {
+        Direction.RIGHT, Direction.LEFT -> screenWidth / 3
+        Direction.UP, Direction.DOWN -> screenHeight / 3
+    }
     private val mTarget = ActionTarget()
 
     override fun onTouch(v: View?, event: MotionEvent?): Boolean {
@@ -80,7 +85,9 @@ class SwipeListener(
                         } else {
                             Orientation.Vertical
                         }
-                        isLocked = true
+                        if (Math.abs(mTarget.positionX) > 50 || Math.abs(mTarget.positionY) > 50) {
+                            isLocked = true
+                        }
                     }
 
                     Log.i("#ocean#", "SD: ${orientation}, move=> x:${mTarget.positionX}, y:${mTarget.positionY}")
@@ -129,6 +136,7 @@ class SwipeListener(
                                 if (System.currentTimeMillis() - mTarget.targetTime < FLING_BACK_DURATION) {
                                     if (mTarget.positionX > FLING_BACK_DISTANCE) {
                                         finishByHorizontalAnimation(mTarget.positionX, screenWidth)
+                                        return false
                                     }
                                 }
 
@@ -136,6 +144,7 @@ class SwipeListener(
                                 if (mTarget.positionX > 0) {
                                     if (mTarget.isFinished) {
                                         finishByHorizontalAnimation(mTarget.positionX, screenWidth)
+                                        return false
                                     } else {
                                         returnBack()
                                     }
@@ -148,6 +157,7 @@ class SwipeListener(
                                 if (System.currentTimeMillis() - mTarget.targetTime < FLING_BACK_DURATION) {
                                     if (-mTarget.positionX > FLING_BACK_DISTANCE) {
                                         finishByHorizontalAnimation(mTarget.positionX, -screenWidth)
+                                        return false
                                     }
                                 }
 
@@ -155,6 +165,7 @@ class SwipeListener(
                                 if (mTarget.positionX < 0) {
                                     if (mTarget.isFinished) {
                                         finishByHorizontalAnimation(mTarget.positionX, -screenWidth)
+                                        return false
                                     } else {
                                         returnBack()
                                     }
@@ -167,6 +178,7 @@ class SwipeListener(
                                 if (System.currentTimeMillis() - mTarget.targetTime < FLING_BACK_DURATION) {
                                     if (mTarget.positionY > FLING_BACK_DISTANCE) {
                                         finishByVerticalAnimation(mTarget.positionY, screenHeight)
+                                        return false
                                     }
                                 }
 
@@ -174,6 +186,7 @@ class SwipeListener(
                                 if (mTarget.positionY > 0) {
                                     if (mTarget.isFinished) {
                                         finishByVerticalAnimation(mTarget.positionY, screenHeight)
+                                        return false
                                     } else {
                                         returnBack()
                                     }
@@ -186,6 +199,7 @@ class SwipeListener(
                                 if (System.currentTimeMillis() - mTarget.targetTime < FLING_BACK_DURATION) {
                                     if (-mTarget.positionY > FLING_BACK_DISTANCE) {
                                         finishByVerticalAnimation(mTarget.positionY, -screenHeight)
+                                        return false
                                     }
                                 }
 
@@ -193,6 +207,7 @@ class SwipeListener(
                                 if (mTarget.positionY < 0) {
                                     if (mTarget.isFinished) {
                                         finishByVerticalAnimation(mTarget.positionY, -screenHeight)
+                                        return false
                                     } else {
                                         returnBack()
                                     }
@@ -208,6 +223,7 @@ class SwipeListener(
     }
 
     private fun returnBack() {
+        Log.i(TAG, "returnBack")
         val startValue = when (direction) {
             Direction.RIGHT -> mTarget.positionX
             Direction.LEFT -> mTarget.positionX
@@ -227,6 +243,7 @@ class SwipeListener(
     }
 
     private fun finishByHorizontalAnimation(start: Float, end: Float) {
+        Log.i(TAG, "finishByHorizontalAnimation=> start: ${start}, end: ${end}")
         val anim = ValueAnimator.ofFloat(start, end)
         anim.duration = 200
         anim.addUpdateListener { animation ->
@@ -245,6 +262,7 @@ class SwipeListener(
     }
 
     private fun finishByVerticalAnimation(start: Float, end: Float) {
+        Log.i(TAG, "finishByVerticalAnimation=> start: ${start}, end: ${end}")
         val anim = ValueAnimator.ofFloat(start, end)
         anim.duration = 200
         anim.addUpdateListener { animation ->
