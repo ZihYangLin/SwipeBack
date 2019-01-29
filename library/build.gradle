@@ -21,6 +21,13 @@ android {
         }
     }
 
+
+    android {
+        lintOptions {
+            abortOnError false
+        }
+    }
+
 }
 
 dependencies {
@@ -47,7 +54,7 @@ ext {
     gitUrl = 'https://github.com/ZihYangLin/SwipeBack.git'
     //函式庫Git位置
 
-    libraryVersion = '1.0.5'                //函式庫版號
+    libraryVersion = '1.0.6'                //函式庫版號
 
     developerId = 'zihyanglin'              //開發者id
     developerName = 'Zhi-Yang Lin'          //開發者名稱
