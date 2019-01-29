@@ -68,13 +68,13 @@ Download
 <dependency>
   <groupId>com.yangping</groupId>
   <artifactId>swipeback</artifactId>
-  <version>1.0.5</version>
+  <version>1.0.6</version>
   <type>pom</type>
 </dependency>
 ```
 or Gradle ( jcenter ):
 ```groovy
-implementation 'com.yangping:swipeback:1.0.5'
+implementation 'com.yangping:swipeback:1.0.6'
 ```
 
 
