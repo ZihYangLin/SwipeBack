@@ -9,8 +9,8 @@ android {
     defaultConfig {
         minSdkVersion 16
         targetSdkVersion 28
-        versionCode 6
-        versionName "1.0.5"
+        versionCode 7
+        versionName "1.0.6"
 
     }
 
@@ -18,6 +18,13 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+
+    android {
+        lintOptions {
+            abortOnError false
         }
     }
 
@@ -47,7 +54,7 @@ ext {
     gitUrl = 'https://github.com/ZihYangLin/SwipeBack.git'
     //函式庫Git位置
 
-    libraryVersion = '1.0.5'                //函式庫版號
+    libraryVersion = '1.0.6'                //函式庫版號
 
     developerId = 'zihyanglin'              //開發者id
     developerName = 'Zhi-Yang Lin'          //開發者名稱

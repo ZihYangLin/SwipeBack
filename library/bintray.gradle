@@ -1,5 +1,12 @@
 apply plugin: 'com.jfrog.bintray' //上傳函式庫到Bintray時需要
 
+tasks.withType(Javadoc) {
+    options.addStringOption('Xdoclint:none', '-quiet')
+    options.addStringOption('encoding', 'UTF-8')
+    options.addStringOption('charSet', 'UTF-8')
+}
+
+
 //發佈函式庫的版號
 version = libraryVersion
 
@@ -24,6 +31,11 @@ task javadoc(type: Javadoc) {
 task javadocJar(type: Jar, dependsOn: javadoc) {
     classifier = 'javadoc'
     from javadoc.destinationDir
+}
+
+task copyDoc(type: Copy) {
+    from "${buildDir}/docs/"
+    into "docs"
 }
 
 //指定歸檔元件
